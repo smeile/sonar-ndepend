@@ -44,9 +44,7 @@ import org.sonar.api.rules.Rule;
 import java.io.File;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class NDependSensorTest {
 
@@ -102,7 +100,7 @@ public class NDependSensorTest {
     fs.setWorkDir(workDir);
 
     File reportFile = new File(workDir, "ndepend-report.xml");
-    Files.copy(new File("src/test/resources/NDependSensorTest/valid.xml"), reportFile);
+    Files.copy(new File("resources/NDependSensorTest/valid.xml"), reportFile);
 
     inputFile = new DefaultInputFile("Program.cs").setAbsolutePath("Program.cs");
     fs.add(inputFile);

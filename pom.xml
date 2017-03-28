@@ -37,20 +37,20 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git@github.com:SonarQubeCommunity/sonar-ndepend.git</connection>
-    <developerConnection>scm:git:git@github.com:SonarQubeCommunity/sonar-ndepend.git</developerConnection>
-    <url>https://github.com/SonarQubeCommunity/sonar-ndepend</url>
+    <connection>scm:git:git@github.com:smeile/sonar-ndepend.git</connection>
+    <developerConnection>scm:git:git@github.com:smeile/sonar-ndepend.git</developerConnection>
+    <url>https://github.com/smeile/sonar-ndepend</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/SonarQubeCommunity/sonar-ndepend/issues</url>
+    <url>https://github.com/smeile/sonar-ndepend/issues</url>
   </issueManagement>
 
   <properties>
-    <sonar.pluginName>NDepend</sonar.pluginName>
+    <sonar.pluginName>NDependWithRemediationTime</sonar.pluginName>
     <sonar.pluginClass>org.sonar.plugins.ndepend.NDependPlugin</sonar.pluginClass>
-    <sonarqube.version>4.5.2</sonarqube.version>
+    <sonarqube.version>5.1</sonarqube.version>
 
     <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
   </properties>
@@ -86,6 +86,11 @@
       <artifactId>mockito-all</artifactId>
       <scope>test</scope>
       <version>1.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
     </dependency>
   </dependencies>
 

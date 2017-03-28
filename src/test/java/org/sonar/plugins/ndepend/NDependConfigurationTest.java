@@ -53,14 +53,14 @@ public class NDependConfigurationTest {
 
   @Test
   public void ruleRunnerPath() {
-    File file = new File("src/test/resources/NDependConfigurationTest/file.txt");
+    File file = new File("resources/NDependConfigurationTest/file.txt");
     settings.setProperty(NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY, file.getAbsolutePath());
     assertThat(conf.ruleRunnerPath()).isEqualTo(file.getAbsolutePath());
   }
 
   @Test
   public void ndependProjectPath() {
-    File file = new File("src/test/resources/NDependConfigurationTest/file.txt");
+    File file = new File("resources/NDependConfigurationTest/file.txt");
     settings.setProperty(NDependPlugin.NDEPEND_PROJECT_PATH_PROPERTY_KEY, file.getAbsolutePath());
     assertThat(conf.ndependProjectPath()).isEqualTo(file.getAbsolutePath());
   }
@@ -87,7 +87,7 @@ public class NDependConfigurationTest {
 
   @Test
   public void invalid_path() {
-    settings.setProperty(NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY, new File("src/test/resources/NDependConfigurationTest/non_existing.txt").getAbsolutePath());
+    settings.setProperty(NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY, new File("resources/NDependConfigurationTest/non_existing.txt").getAbsolutePath());
 
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("The absolute path provided in the property \"" + NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY + "\" does not exist: ");
@@ -98,7 +98,7 @@ public class NDependConfigurationTest {
 
   @Test
   public void relative_path() {
-    settings.setProperty(NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY, "src/test/resources/NDependConfigurationTest/non_existing.txt");
+    settings.setProperty(NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY, "resources/NDependConfigurationTest/non_existing.txt");
 
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("The path provided in the property \"" + NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY + "\" must be an absolute path: ");

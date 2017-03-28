@@ -23,6 +23,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import junit.framework.Assert;
 import org.junit.Test;
+import org.sonar.api.server.debt.internal.DefaultDebtRemediationFunction;
 import org.sonar.api.server.rule.RulesDefinition.Context;
 import org.sonar.api.server.rule.RulesDefinition.Rule;
 
@@ -36,12 +37,15 @@ public class NDependRulesDefinitionTest {
 
   @Test
   public void test() throws Exception {
+    // Arrange
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/valid.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/valid.xml"), Charsets.UTF_8));
 
     Context context = new Context();
+    // Act
     new NDependRulesDefinition(conf).define(context);
 
+    // Assert
     assertThat(context.repositories()).hasSize(1);
 
     for (Rule rule : context.repository("ndepend").rules()) {
@@ -70,6 +74,50 @@ public class NDependRulesDefinitionTest {
   }
 
   @Test
+  public void define_whenRemediationTimeGiven_ThenOutputIsCorrect() throws Exception {
+    // Arrange
+    NDependConfiguration conf = mock(NDependConfiguration.class);
+    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/validWithRemediationTime.xml"), Charsets.UTF_8));
+
+    Context context = new Context();
+    // Act
+    new NDependRulesDefinition(conf).define(context);
+
+    // Assert
+    assertThat(context.repositories()).hasSize(1);
+
+    for (Rule rule : context.repository("ndepend").rules()) {
+      if ("Key1".equals(rule.key())) {
+        assertThat(rule.key()).isEqualTo("Key1");
+        assertThat(rule.severity()).isEqualTo("BLOCKER");
+        assertThat(rule.name()).isEqualTo("Name1");
+        assertThat(rule.htmlDescription()).isEqualTo("Description1");
+        assertThat(rule.tags()).containsOnly("code-quality");
+        assertThat(rule.debtRemediationFunction() instanceof DefaultDebtRemediationFunction);
+        assertThat(rule.debtRemediationFunction().offset()).isEqualTo("10min");
+      } else if ("Key2".equals(rule.key())) {
+        assertThat(rule.key()).isEqualTo("Key2");
+        assertThat(rule.severity()).isEqualTo("MAJOR");
+        assertThat(rule.name()).isEqualTo("Name2");
+        assertThat(rule.htmlDescription()).isEqualTo("Description2");
+        assertThat(rule.tags()).isEmpty();
+        assertThat(rule.debtRemediationFunction() instanceof DefaultDebtRemediationFunction);
+        assertThat(rule.debtRemediationFunction().offset()).isEqualTo("5d");
+      } else if ("Key3".equals(rule.key())) {
+        assertThat(rule.severity()).isEqualTo("MINOR");
+        assertThat(rule.name()).isEqualTo("Name3");
+        assertThat(rule.htmlDescription()).isEqualTo("Description3");
+        assertThat(rule.tags()).containsOnly("object-oriented-design");
+        assertThat(rule.debtRemediationFunction() instanceof DefaultDebtRemediationFunction);
+        assertThat(rule.debtRemediationFunction().offset()).isEqualTo("23h");
+      } else {
+        Assert.fail("Unexpected key: " + rule.key());
+      }
+    }
+    assertThat(context.repository("ndepend").rules()).hasSize(3);
+  }
+
+  @Test
   public void should_not_fail_on_empty_rules_property() {
     NDependConfiguration conf = mock(NDependConfiguration.class);
     when(conf.rules()).thenReturn("");
@@ -82,7 +130,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_key() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_key.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_key.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);
@@ -92,7 +140,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_priority() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_priority.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_priority.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);
@@ -102,7 +150,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_name() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_name.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_name.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);
@@ -112,7 +160,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_description() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_description.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_description.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);

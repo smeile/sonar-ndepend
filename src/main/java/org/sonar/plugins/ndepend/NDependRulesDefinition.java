@@ -23,6 +23,8 @@ import com.google.common.base.Throwables;
 import com.google.common.io.Closeables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.server.debt.DebtRemediationFunction;
+import org.sonar.api.server.debt.internal.DefaultDebtRemediationFunction;
 import org.sonar.api.server.rule.RulesDefinition;
 
 import javax.annotation.Nullable;
@@ -30,7 +32,6 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-
 import java.io.StringReader;
 
 public class NDependRulesDefinition implements RulesDefinition {
@@ -112,6 +113,7 @@ public class NDependRulesDefinition implements RulesDefinition {
     private void handleRuleTag() throws XMLStreamException {
       String key = getRequiredAttribute("Key");
       String priority = getRequiredAttribute("Priority");
+      String remediationTime = getAttribute("RemediationTime");
       String category = getAttribute("Category");
       String name = null;
       String description = null;
@@ -130,6 +132,11 @@ public class NDependRulesDefinition implements RulesDefinition {
           NewRule rule = repository.createRule(key).setName(name).setSeverity(priority).setHtmlDescription(description);
           if (category != null) {
             rule.addTags(category);
+          }
+          if (remediationTime != null){
+            DebtRemediationFunction debtRemediationFunction = new DefaultDebtRemediationFunction(DebtRemediationFunction.Type.CONSTANT_ISSUE, null, remediationTime);
+            rule.setDebtRemediationFunction(debtRemediationFunction);
+            rule.setDebtSubCharacteristic("not defined");
           }
 
           break;
