@@ -46,7 +46,7 @@ public class NDependReportParserTest {
 
   @Test
   public void test() {
-    parser.parse(new File("resources/NDependReportParserTest/valid.xml"));
+    parser.parse(new File("src/test/resources/NDependReportParserTest/valid.xml"));
 
     verify(callback).onIssue("AvoidNamespacesWithFewTypes", "Program.cs", 7);
     verify(callback, Mockito.times(2)).onIssue("ClassWithNoDescendantShouldBeSealedIfPossible", "Program.cs", 9);
@@ -61,7 +61,7 @@ public class NDependReportParserTest {
     thrown.expectMessage("Missing attribute \"Key\" in element <RuleViolated>");
     thrown.expectMessage("no_key.xml at line 5");
 
-    parser.parse(new File("resources/NDependReportParserTest/no_key.xml"));
+    parser.parse(new File("src/test/resources/NDependReportParserTest/no_key.xml"));
   }
 
   @Test
@@ -69,13 +69,13 @@ public class NDependReportParserTest {
     thrown.expectMessage("Expected an integer instead of \"foo\" for the attribute \"Line\"");
     thrown.expectMessage("invalid_line.xml at line 3");
 
-    parser.parse(new File("resources/NDependReportParserTest/invalid_line.xml"));
+    parser.parse(new File("src/test/resources/NDependReportParserTest/invalid_line.xml"));
   }
 
   @Test
   public void non_existing() {
     thrown.expectMessage("non_existing.xml");
-    parser.parse(new File("resources/NDependReportParserTest/non_existing.xml"));
+    parser.parse(new File("src/test/resources/NDependReportParserTest/non_existing.xml"));
   }
 
 }

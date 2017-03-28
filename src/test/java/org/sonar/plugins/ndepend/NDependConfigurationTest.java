@@ -53,14 +53,14 @@ public class NDependConfigurationTest {
 
   @Test
   public void ruleRunnerPath() {
-    File file = new File("resources/NDependConfigurationTest/file.txt");
+    File file = new File("src/test/resources/NDependConfigurationTest/file.txt");
     settings.setProperty(NDependPlugin.RULE_RUNNER_PATH_PROPERTY_KEY, file.getAbsolutePath());
     assertThat(conf.ruleRunnerPath()).isEqualTo(file.getAbsolutePath());
   }
 
   @Test
   public void ndependProjectPath() {
-    File file = new File("resources/NDependConfigurationTest/file.txt");
+    File file = new File("src/test/resources/NDependConfigurationTest/file.txt");
     settings.setProperty(NDependPlugin.NDEPEND_PROJECT_PATH_PROPERTY_KEY, file.getAbsolutePath());
     assertThat(conf.ndependProjectPath()).isEqualTo(file.getAbsolutePath());
   }

@@ -39,7 +39,7 @@ public class NDependRulesDefinitionTest {
   public void test() throws Exception {
     // Arrange
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/valid.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/valid.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     // Act
@@ -77,7 +77,7 @@ public class NDependRulesDefinitionTest {
   public void define_whenRemediationTimeGiven_ThenOutputIsCorrect() throws Exception {
     // Arrange
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/validWithRemediationTime.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/validWithRemediationTime.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     // Act
@@ -130,7 +130,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_key() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_key.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_key.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);
@@ -140,7 +140,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_priority() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_priority.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_priority.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);
@@ -150,7 +150,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_name() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_name.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_name.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);
@@ -160,7 +160,7 @@ public class NDependRulesDefinitionTest {
   @Test
   public void should_not_fail_on_missing_description() throws Exception {
     NDependConfiguration conf = mock(NDependConfiguration.class);
-    when(conf.rules()).thenReturn(Files.toString(new File("resources/NDependRulesDefinitionTest/no_description.xml"), Charsets.UTF_8));
+    when(conf.rules()).thenReturn(Files.toString(new File("src/test/resources/NDependRulesDefinitionTest/no_description.xml"), Charsets.UTF_8));
 
     Context context = new Context();
     new NDependRulesDefinition(conf).define(context);
